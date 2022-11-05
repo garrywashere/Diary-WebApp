@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/login.css') }}">
+        <script src="{{ url_for('static', filename='scripts/login.js') }}"></script>
+    </head>
+    <body>
+        <div class="headbox">
+            <div class="left"></div>
+            <div class="center">
+                <center>
+                    <img src="{{ url_for('static', filename='images/icon.png') }}" height="100px">
+                    <h1>Login</h1>
+                    <form method="post">
+                        <input type="email" name="email" placeholder="Email" value="{{ email }}"> <br>
+                        <input type="password" name="password" placeholder="Password" required> <br>
+                        <input type="submit" value="Login"> <br>
+                        <label>Remember Me: <input type="checkbox" name="remember" checked></label>
+                        {% if error %}
+                            <p style="color:red; margin: 0px">Username or Password Incorrect</p>
+                        {% endif %}
+                    </form>
+                </center>
+            </div>
+            <div class="right"></div>
+        </div>
+    </body>
+</html>

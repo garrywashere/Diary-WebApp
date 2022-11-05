@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+        <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
+    </head>
+    <body onload="chainStart('{{ fname }}')">
+        <div class="box">
+            <div class="row header">
+                <div class="headbox">
+                    <div class="left">
+                        <h1 id="greetingText"></h1>
+                    </div>
+                    <div class="center" align="center">
+                        <!-- Nothing to see here -->
+                    </div>
+                    <div class="right" align="center">
+                        <h4 style="margin-bottom: 0px;">Not {{ fname }}?</h4>
+                        <em><a href="/logout">Logout</a></em>
+                    </div>
+                </div>
+            </div>
+            <div class="row content">
+                <h3 style="overflow-x: scroll; overflow:auto; white-space: nowrap;"><em>
+                    {{ fname }}'s Diary - 
+                    <a>entry1.</a> - <a>entry2.</a> - <a>entry3.</a> - <a>entry4.</a> - <a href="javascript:alert('More')">More...</a>
+                </em></h3>
+                <iframe src="https://garrynet.co.uk" scrolling="no"></iframe>
+            </div>
+            <div class="row footer">
+                <div class="headbox">
+                    <div class="left">
+                        <em><h4>© 2022 <a href="https://garrynet.co.uk" target="_blank">GarryNet</a></h4></em>
+                    </div>
+                    <div class="center" align="center">
+                        <h4 id="dntText"></h4>
+                    </div>
+                    <div class="right" align="center">
+                        <h4><a href="javascript:alert('About')">About</a></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
