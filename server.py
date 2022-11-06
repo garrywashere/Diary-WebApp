@@ -8,6 +8,7 @@ class config:
     PORT = 8080
     DEBUG = True
     FNAME = "garry"
+    ENTRIES = ["School gae", "ur mum", "lol kek"]
 
 @app.errorhandler(404)
 def notFound(e):
@@ -16,7 +17,8 @@ def notFound(e):
 @app.route("/")
 def main():
     if "loggedIn" in session and "email" in session:
-        return render_template("main.html", fname=config.FNAME.capitalize())
+        email = session["email"]
+        return render_template("main.html", fname=config.FNAME.capitalize(), entries=config.ENTRIES)
     else:
         return redirect("/login")
 
@@ -29,10 +31,6 @@ def login():
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
-        try:
-            remember = True if request.form["remember"] == "on" else False
-        except:
-            remember = False
         if email == "garry@garrynet.co.uk" and password == "garry53":
             session["loggedIn"] = True
             session["email"] = email
@@ -47,7 +45,27 @@ def logout():
         session.pop("loggedIn", None)
         return redirect("/login")
     else:
-        return "Error: not logged in dumbass..."
+        return redirect("/404")
+
+@app.route("/new_entry", methods=["post", "get"])
+def new_entry():
+    if "loggedIn" in session and "email" in session:
+        if request.method == "POST":
+            date = request.form["date"]
+            title = request.form["title"]
+            password = request.form["password"]
+            body = request.form["body"]
+            print(date, title, password, body)
+        return render_template("new_entry.html")
+    else:
+        return redirect("/404")
+
+@app.route("/fetch_entry/<entryTitle>")
+def fetch_entry(entryTitle):
+    if "loggedIn" in session and "email" in session:
+        return f"<h1 style='color: white;'>You requested: {entryTitle}</h1>"
+    else:
+        return redirect("/404")
 
 if __name__ == "__main__":
     app.run(host=config.HOST, port=config.PORT, debug=config.DEBUG)

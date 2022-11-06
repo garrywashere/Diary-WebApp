@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title></title>
+        <title>GarryNet - Diary - Login</title>
+        <link rel="icon" href="{{ url_for('static', filename='images/icon.png') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/login.css') }}">
         <script src="{{ url_for('static', filename='scripts/login.js') }}"></script>
     </head>
@@ -16,7 +17,6 @@
                         <input type="email" name="email" placeholder="Email" value="{{ email }}"> <br>
                         <input type="password" name="password" placeholder="Password" required> <br>
                         <input type="submit" value="Login"> <br>
-                        <label>Remember Me: <input type="checkbox" name="remember" checked></label>
                         {% if error %}
                             <p style="color:red; margin: 0px">Username or Password Incorrect</p>
                         {% endif %}

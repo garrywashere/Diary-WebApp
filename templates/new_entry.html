@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/entry.css') }}">
+        <script src="{{ url_for('static', filename='scripts/entry.js') }}"></script>
+    </head>
+    <body onload="today()">
+        <div class="headbox">
+            <div class="left"></div>
+            <div class="center">
+                <center>
+                    <h2>New Entry</h2>
+                    <form method="post">
+                        <input type="date" name="date" id="date">
+                        <input type="text" name="title" id="title" placeholder="Title" maxlength="100" onkeyup="validate()" required>
+                        <input type="password" name="password" id="password" placeholder="Encryption Password" maxlength="100" onkeyup="validate()" required> <br>
+                        <textarea name="body" id="body" placeholder="Dear Diary," rows="25" cols="100" maxlength="1000000" class="secret" onkeyup="validate()" required></textarea>
+                        <input type="button" value="Clear" onclick="cancel()" id="clearButton" disabled>
+                        <input type="submit" value="Save" onclick="this.value = 'Saved'" id="saveButton" disabled> <br>
+                        <em><label style="transition: 3s;" id="count">0/1000000</label></em>
+                    </form>
+                </center>
+            </div>
+            <div class="right"></div>
+        </div>
+    </body>
+</html>
