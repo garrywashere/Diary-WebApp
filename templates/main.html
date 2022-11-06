@@ -24,9 +24,9 @@
             </div>
             <div class="row content">
                 <h3 style="overflow-x: scroll; overflow:auto; white-space: nowrap;"><em>
-                    {{ fname }}'s Diary | <a href="{{ url_for('new_entry') }}" target="iframe">New</a> | <a href="javascript:location.reload()">Refresh</a> | Entries: {% for entry in entries %}<a href="/fetch_entry/{{ entry|lower|replace(' ', '-') }}" target="iframe">{{ entry }}</a> - {% endfor %}
+                    {{ fname }}'s Diary | <a href="{{ url_for('new_entry') }}" target="iframe" accesskey="n">New</a> | <a href="javascript:location.reload()" accesskey="r">Refresh</a> | Entries: {% for entry in entries %}<a href="/fetch_entry/{{ entry|lower|replace(' ', '-') }}" target="iframe">{{ entry }}</a> - {% endfor %}
                 </em></h3>
-                <iframe name="iframe" src="{{ url_for('new_entry') }}" scrolling="no"></iframe>
+                <iframe name="iframe" src="{{ url_for('new_entry') }}" scrolling="yes"></iframe>
             </div>
             <div class="row footer">
                 <div class="headbox">

@@ -38,7 +38,6 @@ class config:
     HOST = "localhost"
     PORT = 8080
     DEBUG = True
-    FNAME = "garry"
 
 @app.errorhandler(404)
 def notFound(e):
@@ -65,14 +64,8 @@ def login():
     if "loggedIn" in session and "email" in session:
         return redirect("/")
     if request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
-        # if email == "garry@garrynet.co.uk" and password == "garry53":
-        #     session["loggedIn"] = True
-        #     session["email"] = email
-        #     return redirect("/")
-        # else:
-        #     error = True
+        email = request.form["email"].strip()
+        password = request.form["password"].strip()
         try:
             user = users.query.filter_by(email=email).first()
             if user.email == email and user.password == password:
@@ -93,13 +86,18 @@ def logout():
     else:
         return redirect("/404")
 
+@app.route("/forget")
+def forget():
+    session.clear()
+    return redirect("/login")
+
 @app.route("/signup", methods=["post", "get"])
 def signup():
     error = False
     if request.method == "POST":
-        email = request.form["email"].lower()
-        password = request.form["password"]
-        fname = request.form["fname"]
+        email = request.form["email"].strip().lower()
+        password = request.form["password"].strip()
+        fname = request.form["fname"].strip().capitalize()
         user = users(email, password, fname)
         try:
             db.session.add(user)
@@ -116,9 +114,9 @@ def new_entry():
         if request.method == "POST":
             belongsTo = session["email"]
             date = request.form["date"]
-            title = request.form["title"]
-            password = request.form["password"]
-            body = request.form["body"]
+            title = request.form["title"].strip()
+            password = request.form["password"].strip()
+            body = request.form["body"].strip()
             entry = entries(belongsTo, title.replace(" ", "-").lower(), date, title, password, body)
             db.session.add(entry)
             db.session.commit()
@@ -129,7 +127,8 @@ def new_entry():
 @app.route("/fetch_entry/<entryTitle>")
 def fetch_entry(entryTitle):
     if "loggedIn" in session and "email" in session:
-        return f"<h1 style='color: white;'>You requested: {entryTitle}</h1>"
+        entry = entries.query.filter_by(urlSafeTitle=entryTitle).first()
+        return render_template("fetch_entry.html", entry=entry)
     else:
         return redirect("/404")
 
