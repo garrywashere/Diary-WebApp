@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>GarryNet | Diary - Login</title>
+        <title>GarryNet | Diary - Sign-Up</title>
         <link rel="icon" href="{{ url_for('static', filename='images/icon.png') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/login.css') }}">
     </head>
@@ -11,14 +11,15 @@
             <div class="center">
                 <center>
                     <img src="{{ url_for('static', filename='images/icon.png') }}" height="100px">
-                    <h1>Login</h1>
+                    <h1>Sign-Up</h1>
                     <form method="post">
-                        <input type="email" name="email" placeholder="Email" value="{{ email }}" maxlength="100" required> <br>
-                        <input type="password" name="password" placeholder="Password" maxlength="100" required> <br>
-                        <input type="submit" value="Login"> <br>
-                        <a href="/signup">Don't Have an Account? Sign-Up</a>
+                        <input type="email" name="email" placeholder="Email" maxlength="100" required> <br>
+                        <input type="password" name="password" placeholder="Password" maxlength="100" minlength="8" required> <br>
+                        <input type="text" name="fname" placeholder="Name" maxlength="100" required> <br>
+                        <input type="button" value="Cancel" onclick="window.location.href='/login'">
+                        <input type="submit" value="Sign-Up">
                         {% if error %}
-                            <p style="color:red; margin: 0px">Incorrect Credentials</p>
+                            <p style="color:red; margin: 0px">Email Already in Use</p>
                         {% endif %}
                     </form>
                 </center>

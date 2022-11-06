@@ -39,7 +39,6 @@ class config:
     PORT = 8080
     DEBUG = True
     FNAME = "garry"
-    ENTRIES = ["School gae", "ur mum", "lol kek"]
 
 @app.errorhandler(404)
 def notFound(e):
@@ -48,25 +47,40 @@ def notFound(e):
 @app.route("/")
 def main():
     if "loggedIn" in session and "email" in session:
+        entryList = [entry[0] for entry in entries.query.with_entities(entries.title)]
         email = session["email"]
-        return render_template("main.html", fname=config.FNAME.capitalize(), entries=config.ENTRIES)
+        user = users.query.filter_by(email=email).first()
+        return render_template("main.html", fname=user.fname, entries=entryList)
     else:
         return redirect("/login")
 
 @app.route("/login", methods=["post", "get"])
 def login():
     error = False
-    email = ""
+    if "email" in session:
+        email = session["email"]
+    else:
+        email = ""
     if "loggedIn" in session and "email" in session:
         return redirect("/")
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
-        if email == "garry@garrynet.co.uk" and password == "garry53":
-            session["loggedIn"] = True
-            session["email"] = email
-            return redirect("/")
-        else:
+        # if email == "garry@garrynet.co.uk" and password == "garry53":
+        #     session["loggedIn"] = True
+        #     session["email"] = email
+        #     return redirect("/")
+        # else:
+        #     error = True
+        try:
+            user = users.query.filter_by(email=email).first()
+            if user.email == email and user.password == password:
+                session["loggedIn"] = True
+                session["email"] = email
+                return redirect("/")
+            else:
+                error = True
+        except:
             error = True
     return render_template("login.html", error=error, email=email)
 
@@ -77,6 +91,23 @@ def logout():
         return redirect("/login")
     else:
         return redirect("/404")
+
+@app.route("/signup", methods=["post", "get"])
+def signup():
+    error = False
+    if request.method == "POST":
+        email = request.form["email"].lower()
+        password = request.form["password"]
+        fname = request.form["fname"]
+        user = users(email, password, fname)
+        try:
+            db.session.add(user)
+            db.session.commit()
+            session["email"] = email
+            return redirect("/login")
+        except:
+            error = True
+    return render_template("signup.html", error=error)
 
 @app.route("/new_entry", methods=["post", "get"])
 def new_entry():
@@ -101,8 +132,8 @@ def fetch_entry(entryTitle):
     else:
         return redirect("/404")
 
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()
 
 if __name__ == "__main__":
     app.run(host=config.HOST, port=config.PORT, debug=config.DEBUG)

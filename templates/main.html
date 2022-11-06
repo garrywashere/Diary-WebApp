@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>GarryNet - Diary - Home</title>
+        <title>GarryNet | Diary - Home</title>
         <link rel="icon" href="{{ url_for('static', filename='images/icon.png') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
         <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
@@ -24,7 +24,7 @@
             </div>
             <div class="row content">
                 <h3 style="overflow-x: scroll; overflow:auto; white-space: nowrap;"><em>
-                    {{ fname }}'s Diary - <a href="{{ url_for('new_entry') }}" target="iframe">New</a> {% for entry in entries %} - <a href="/fetch_entry/{{ entry|lower|replace(' ', '-') }}" target="iframe">{{ entry }}</a>{% endfor %}
+                    {{ fname }}'s Diary | <a href="{{ url_for('new_entry') }}" target="iframe">New</a> | <a href="javascript:location.reload()">Refresh</a> | Entries: {% for entry in entries %}<a href="/fetch_entry/{{ entry|lower|replace(' ', '-') }}" target="iframe">{{ entry }}</a> - {% endfor %}
                 </em></h3>
                 <iframe name="iframe" src="{{ url_for('new_entry') }}" scrolling="no"></iframe>
             </div>
