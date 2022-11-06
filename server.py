@@ -47,8 +47,9 @@ def notFound(e):
 @app.route("/")
 def main():
     if "loggedIn" in session and "email" in session:
-        entryList = [entry[0] for entry in entries.query.with_entities(entries.title)]
         email = session["email"]
+        entryList = entries.query.filter_by(belongsTo=email).all()
+        entryList = [entry.title for entry in entryList]
         user = users.query.filter_by(email=email).first()
         return render_template("main.html", fname=user.fname, entries=entryList)
     else:
