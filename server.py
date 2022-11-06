@@ -128,7 +128,10 @@ def new_entry():
 def fetch_entry(entryTitle):
     if "loggedIn" in session and "email" in session:
         entry = entries.query.filter_by(urlSafeTitle=entryTitle).first()
-        return render_template("fetch_entry.html", entry=entry)
+        if session["email"] == entry.belongsTo:
+            return render_template("fetch_entry.html", entry=entry)
+        else:
+            return redirect("/404")
     else:
         return redirect("/404")
 
